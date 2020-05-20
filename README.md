@@ -20,7 +20,7 @@ The workflow we will demonstrate is as follows:
 - infer phylogenomic tree with paritions corresponding to the original gene alignments using ML
 - map internode certainty (IC) onto the phylogenomic tree
 
-__1.) Download data from Genbank__
+## 1.) Download data from Genbank
 
 Let's start with the transcriptomes. These were published in Brandt et al. 2017. Effective purifying selection in ancient asexual oribatid mites. Nature Communications (very nice <a href="https://www.nature.com/articles/s41467-017-01002-8" title="Brandt et al. 2017" target="_blank">paper</a>). The authors have depsited their transcriptomes under NCBI Bioproject PRJNA339058. Let's surf to <a href="https://www.ncbi.nlm.nih.gov/" title="Genbank" target="_blank">NCBI Genbank</a>) and find it. Searching for the Bioproject gets us <a href="https://www.ncbi.nlm.nih.gov/bioproject/?term=PRJNA339058" title="PRJNA339058" target="_blank">here</a>).
 
@@ -37,7 +37,7 @@ wget https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/XX/GEXX01/GEX
 cd .. 
 ```
 
-__2.) Run BUSCO on each assembly__
+## 2.) Run BUSCO on each assembly
 
 First you'll need to download the reference data for BUSCO - pick and choose on their <a href="https://busco-archive.ezlab.org/v3/" title="GEXX01" target="_blank">webpage</a>. We go for 'Arthropoda odb9'.
 
@@ -61,7 +61,7 @@ docker run --rm \
 chrishah/busco-docker:v3.1.0 \
 run_BUSCO.py \
 --in /assemblies/GEXX01.1.fsa_nt \
---out A_coleoptrara.A_coleoptrata.GEXX01.1 \
+--out A_coleoptrata.A_coleoptrata.GEXX01.1 \
 -l /BUSCOs \
 --mode transcriptome -c 4 -f -sp fly --long --augustus_parameters='--progress=true'
 ```
