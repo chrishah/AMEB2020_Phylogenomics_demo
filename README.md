@@ -26,15 +26,15 @@ Let's start with the transcriptomes. These were published in Brandt et al. 2017.
 
 After some more clicking we find a download page, like <a href="https://www.ncbi.nlm.nih.gov/Traces/wgs/?val=GEXX01" title="GEXX01" target="_blank">this</a>, for each assembly.
 
-I'll make a new directory and download the assemblies to it, e.g. for _Achipteria coleoptrata_:
+I'll make a new directory and download the assemblies to it, e.g. for _Achipteria coleoptrata_ - Note that the `(user@host)-$` part of the code below just mimics a command line prompt. This will look differently on each computer. The command you actually need to exectue is the part after that, so only, e.g. `mkdir assemblies`:
 ```bash
-mkdir assemblies
-cd assemblies
-wget https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/XX/GEXX01/GEXX01.1.fsa_nt.gz
-
-# You can use the links in the above mentioned table to download the rest
-
-cd .. 
+(user@host)-$ mkdir assemblies
+(user@host)-$ cd assemblies
+(user@host)-$ wget https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/XX/GEXX01/GEXX01.1.fsa_nt.gz
+```
+You can use the links in the above mentioned table to download the rest. Then leave the directory.
+```bash
+(user@host)-$ cd .. 
 ```
 
 __2.) Run BUSCO on each assembly__
@@ -42,21 +42,21 @@ __2.) Run BUSCO on each assembly__
 First you'll need to download the reference data for BUSCO - pick and choose on their <a href="https://busco-archive.ezlab.org/v3/" title="BUSCO v3" target="_blank">webpage</a>. We go for 'Arthropoda odb9'.
 
 ```bash
-#download
-wget https://busco-archive.ezlab.org/v3/datasets/arthropoda_odb9.tar.gz
-
-#decompress
-tar xvfz arthropoda_odb9.tar.gz
+(user@host)-$ wget https://busco-archive.ezlab.org/v3/datasets/arthropoda_odb9.tar.gz
+```
+I comes compressed, so we need to decompress:
+```bash
+(user@host)-$ tar xvfz arthropoda_odb9.tar.gz
 ```
 
-Running BUSCO will take a few hours for each assembly, depending on the computational resources you have available. I'll start with one transcriptome to give you an example. I suggest you just copy paste and hit enter for now, while it is running we will talk about some details of the command.
+Now we want to run BUSCO to identify the set of core genes in our transcriptome. This will take a few hours for each assembly, depending on the computational resources you have available. I'll start with one transcriptome to give you an example. I suggest you just copy paste and hit enter for now, while it is running we will talk about some details of the command.
 ```bash
-mkdir genes
-cd genes
-mkdir Achipteria_coleoptrata
-cd Achipteria_coleoptrata
+(user@host)-$ mkdir genes
+(user@host)-$ cd genes
+(user@host)-$ mkdir Achipteria_coleoptrata
+(user@host)-$ cd Achipteria_coleoptrata
 
-docker run \
+(user@host)-$ docker run \
 -v $(pwd):/in -v $(pwd)/../../assemblies/:/assemblies -v $(pwd)/../../arthropoda_odb9:/BUSCOs \
 -w /in --rm \
 chrishah/busco-docker:v3.1.0 \
@@ -68,14 +68,15 @@ run_BUSCO.py \
 -sp fly --long --augustus_parameters='--progress=true'
 ```
 
+Here's some more details, as promised:
 If you're new to the command line the above probably looks a bit confusing. What you have here is one long command that is wrapped across several lines to make it a bit more readable. You notice that each line ends with a `\` - this tells the shell that the command is not done and will continue in the next line. You could write everything in one line. Now, the first three call the actual program that we're running `run_BUSCO.py`. This calls a number of other software tools that would all need to be installed on your system. In order to avoid that we use a Docker container, that has everything included. So, before calling the actual program we tell the program `docker` to `run` a container `chrishah/busco-docker:v3.1.0` and within it we call the program `run_BUSCO.py`. There is a few other options specified which I will come to soon, but that's the bare minimum - give it a try.
 ```bash
-docker run chrishah/busco-docker:v3.1.0 run_BUSCO.py
-RROR	The parameter '--in' was not provided. Please add it in the config file or provide it through the command line
+(user@host)-$ docker run chrishah/busco-docker:v3.1.0 run_BUSCO.py
+ERROR	The parameter '--in' was not provided. Please add it in the config file or provide it through the command line
 ```
 We get and error and it tells us that we have not provided a certain parameter. The question is which parameters are available. Command line programs usually have an option to show you which parameters are available to the user. This __help__ can in most be cases be called by adding a `-h` flag to the software call. There can be variations around that: sometimes it's `--help`, sometimes it's `-help`, but something like that exists for almost every command line program,s o this is a very important thing to take home from this exercise. Give it a try. 
 ```bash
-docker run chrishah/busco-docker:v3.1.0 run_BUSCO.py -h
+(user@host)-$ docker run chrishah/busco-docker:v3.1.0 run_BUSCO.py -h
 usage: python BUSCO.py -i [SEQUENCE_FILE] -l [LINEAGE] -o [OUTPUT_NAME] -m [MODE] [OTHER OPTIONS]
 
 Welcome to BUSCO 3.1.0: the Benchmarking Universal Single-Copy Ortholog assessment tool.
@@ -121,9 +122,9 @@ Now for the extra Docker parameters:
 BTW, docker has a help function too:
 ```bash
 #For the main docker program
-docker --help
+(user@host)-$ docker --help
 #For the run subprogram
-docker run --help
+(user@host)-$ docker run --help
 ```
 Then I specify a number of parameters for BUSCO (you can double check with the information from the `-h` above), like:
  - the input fasta file, via `--in`
@@ -134,12 +135,12 @@ Then I specify a number of parameters for BUSCO (you can double check with the i
  - that I want it to force overwrite any existing data, in case I ran it before in the same place, via `-f`
  - and finally a few parameters for one of the gene predictors BUSCO uses, it's called `augustus`
 
-For genome assemblies you would do it slightly differently:
+For genome assemblies you would do it slightly differently (the below assumes that you've downloaded the assembly and put it in the assemblies directory):
 ```bash
-mkdir Brevipalpus_yothersi
-cd Brevipalpus_yothersi
+(user@host)-$ mkdir Brevipalpus_yothersi
+(user@host)-$ cd Brevipalpus_yothersi
 
-docker run /
+(user@host)-$ docker run /
 -v $(pwd)/../../assemblies/:/assemblies -v $(pwd)/../../arthropoda_odb9:/BUSCOs -v $(pwd):/in \
 --rm -w /in \
 chrishah/busco-docker:v3.1.0 \
@@ -152,5 +153,240 @@ run_BUSCO.py \
 
 ```
 
-Now, let's have a look at BUSCO's output. 
+Now, let's have a look at BUSCO's output. If you followed the steps above BUSCO will have created lots of files for Achipteria coleoptrata. Let's move to there and list the files:
+```bash
+(user@host)-$ cd genes/Achipteria_coleoptrata/run_A_coleoptrata.A_coleoptrata.GEXX01.1/
+(user@host)-$ ls -1
+blast_output
+full_table_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv
+hmmer_output
+missing_busco_list_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv
+short_summary_A_coleoptrata.A_coleoptrata.GEXX01.1.txt
+translated_proteins
+``` 
+
+Usually the most interesting for people is the content of the short summary, which gives an indication of how complete your genome/transcriptome is.
+```bash
+(user@host)-$ cat short_summary_A_coleoptrata.A_coleoptrata.GEXX01.1.txt
+# BUSCO version is: 3.1.0 
+# The lineage dataset is: arthropoda_odb9 (Creation date: 2017-02-07, number of species: 60, number of BUSCOs: 1066)
+# To reproduce this run: python /usr/bin/run_BUSCO.py -i /cl_tmp/hahnc/Oribatid/transcriptomes/GEXX01.1.fsa_nt -o A_coleoptrata.A_coleoptrata.GEXX01.1 -l /usr/people/EDVZ/hahnc/BUSCOS/arthropoda_odb9/ -m transcriptome -c 8 --long
+#
+# Summarized benchmarking in BUSCO notation for file /cl_tmp/hahnc/Oribatid/transcriptomes/GEXX01.1.fsa_nt
+# BUSCO was run in mode: transcriptome
+
+	C:95.5%[S:60.7%,D:34.8%],F:1.3%,M:3.2%,n:1066
+
+	1018	Complete BUSCOs (C)
+	647	Complete and single-copy BUSCOs (S)
+	371	Complete and duplicated BUSCOs (D)
+	14	Fragmented BUSCOs (F)
+	34	Missing BUSCOs (M)
+	1066	Total BUSCO groups searched
+
+```
+
+We're also interested in which BUSCO genes it actually found. Note that I am only showing the first 20 lines of the file below - it actually has 1000+ lines.
+```bash
+(user@host)-$ head -n 20 full_table_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv
+# BUSCO version is: 3.1.0 
+# The lineage dataset is: arthropoda_odb9 (Creation date: 2017-02-07, number of species: 60, number of BUSCOs: 1066)
+# To reproduce this run: python /usr/bin/run_BUSCO.py -i /cl_tmp/hahnc/Oribatid/transcriptomes/GEXX01.1.fsa_nt -o A_coleoptrata.A_coleoptrata.GEXX01.1 -l /usr/people/EDVZ/hahnc/BUSCOS/arthropoda_odb9/ -m transcriptome -c 8 --long
+#
+# Busco id	Status	Sequence	Score	Length
+EOG090X0007	Duplicated	GEXX01051777.1	1627.0	3624
+EOG090X0007	Duplicated	GEXX01051778.1	1638.2	3655
+EOG090X002Z	Missing
+EOG090X005G	Complete	GEXX01092998.1	2792.4	1909
+EOG090X005Q	Complete	GEXX01108369.1	1307.2	1218
+EOG090X0064	Complete	GEXX01123152.1	3094.6	1509
+EOG090X00BV	Complete	GEXX01007605.1	1187.0	943
+EOG090X00BY	Complete	GEXX01098713.1	2667.0	1646
+EOG090X00DN	Complete	GEXX01092204.1	1502.4	1043
+EOG090X00E0	Complete	GEXX01111543.1	654.9	873
+EOG090X00FC	Duplicated	GEXX01070625.1	997.3	715
+EOG090X00FC	Duplicated	GEXX01070626.1	997.5	715
+EOG090X00GC	Duplicated	GEXX01004621.1	1920.5	863
+EOG090X00GC	Duplicated	GEXX01004622.1	1920.3	863
+EOG090X00GO	Complete	GEXX01034805.1	2210.6	1030
+```
+So, you get the status for all BUSCO genes, wheter it was complete, duplicated etc., on which sequence in your assembly it was found, how good the match was, length, etc.
+
+Now, what we're going to do is select us a bunch of BUSCO genes to be included in our analyses. First we're just going to filter by presence/absence of data. Let's do this in a new directory.
+```bash
+(user@host)-$ cd ../../../
+(user@host)-$ mkdir analyses
+(user@host)-$ cd analyses
+(user@host)-$ mkdir pre-filtering
+(user@host)-$ cd pre-filtering
+```
+
+We'd want for example to identify all genes that are not missing data for more than one sample. I have grouped my species into ingroup taxa (the focal group) and outgroup taxa and I've written them to files accordingly. Note that for all of the below to work the names need to fit with the names you gave during the BUSCO run and the download.
+```bash
+(user@host)-$ cat ingroup.txt 
+Achipteria_coleoptrata
+Nothurs_palustris
+Platynothrus_peltifer
+Hermannia_gibba
+Steganacarus_magnus
+Hypochthonius_rufulus
+
+(user@host)-$ cat outgroup.txt 
+Brevipalpus_yothersi
+Tetranychus_urticae
+```
+
+Let's start by looking at a random gene, say `EOG090X00BY`. You can try to do it manually, i.e. go through all the full tables, search for the gene id and take a note of what the status was. For a 1000 genes that's a bit tedious so I wrote a script to do that: `evaluate.sh`. It's in the `bin/` directory of this repository. I'll just show the first few lines of the code to give you an idea, don't worry about the details for now.
+```bash
+(user@host)-$ cat bin/evaluate.sh
+#!/bin/bash
+
+ID=$1
+ingroupfile=ingroup.txt
+outgroupfile=outgroup.txt
+cutoffingroup=2
+cutoffoutroup=2
+maxavg=2
+maxmed=2
+
+>&2 echo -e "\n###\nprocessing ID: $ID"
+
+#evaluate for how many ingroup samples the given BUSCO is missing or fragmented
+misingroup=$(cat $(grep -f $ingroupfile <(find ../../../genes/ -name "full_table*")) | grep -v "#" | grep -P "$ID" | grep -e "Missing" -e "Fragmented" | cut -f 1| wc -l)
+>&2 echo -e "Number of BUSCOs missing or fragmented in the ingroup: $misingroup"
+#evaluate for how many outgroup samples the given BUSCO is missing or fragmented
+misoutgroup=$(cat $(grep -f $outgroupfile <(find ../../../genes/ -name "full_table*")) | grep -v "#" | grep -P "$ID" | grep -e "Missing" -e "Fragmented" | cut -f 1| wc -l)
+>&2 echo -e "Number of BUSCOs missing or fragmented in the outgroup: $misoutgroup"
+
+if [ "$misingroup" -lt "$cutoffingroup" ] && [ "$misoutgroup" -lt "$cutoffoutgroup" ]
+then
+        >&2 echo distribution ok
+else
+        >&2 echo distribution not ok
+        exit 1
+fi
+
+
+```
+
+Let's try for our BUSCO `EOG090X00BY`.
+```bash
+(user@host)-$ ../../bin/evaluate.sh EOG090X00BY
+
+###
+processing ID: EOG090X00BY
+Number of BUSCOs missing or fragmented in the ingroup: 0
+Number of BUSCOs missing or fragmented in the outgroup: 0
+distribution ok
+Average number of paralogs per sample: 1.25
+average ok
+Median number of paralogs per sample: 1
+median ok
+EOG090X00BY
+```
+
+This passes our filter criteria. No genes missing, average number of paralogs per sample < 2 and median number of paralogs is < 2 , as well. Great.
+
+Now, the idea is to run this for all of the BUSCO genes. I would do that as follows - let's build us a complex command. First we need to find a way of getting a list of all BUSCO IDs - Note that I am only showing the first 10 lines of the output.
+```bash
+(user@host)-$ cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head
+```
+Then, I wrap a for loop around this list.
+```bash
+(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1)
+do
+	echo $B
+done
+```
+
+Now I run the script from before for each of the BUSCO ids. We just add one line in the for loop. For this test I also limit the number of ids to be processed to 10, this is what the `head` at the end of line one is doing. If we're satisified we can remove the `head` to get it done for the full list.
+
+```bash
+(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head )
+do
+	../../bin/evaluate.sh $B
+done
+```
+Command line programs can output to two different channels, the so-called standard-out (STDOUT) and standard-error (STDERR). I've designed the script to output different information to different channels. Spefically, I made it that it ouptuts the summary to STDERR and to STDOUT it sends just the IDs of BUSCO genes that pass our filters.
+```bash
+(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head )
+do
+	../../bin/evaluate.sh $B
+done 1> list.txt
+```
+
+Have a look at the list.
+```bash
+(user@host)-$ cat list.txt 
+EOG090X005G
+EOG090X005Q
+EOG090X0064
+EOG090X00BV
+EOG090X00BY
+EOG090X00DN
+EOG090X00E0
+```
+
+I could also write the list and at the same time the summaries to a different file.
+
+```bash
+(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head )
+do
+	../../bin/evaluate.sh $B
+done 1> list.txt 2> summaries.txt
+```
+
+Have a look at the summaries (just showing the first few lines here).
+```bash
+(user@host)-$ cat summaries.txt
+
+###
+processing ID: EOG090X0007
+Number of BUSCOs missing or fragmented in the ingroup: 0
+Number of BUSCOs missing or fragmented in the outgroup: 0
+distribution ok
+Average number of paralogs per sample: 2.375
+average not ok
+
+###
+processing ID: EOG090X0007
+Number of BUSCOs missing or fragmented in the ingroup: 0
+Number of BUSCOs missing or fragmented in the outgroup: 0
+distribution ok
+Average number of paralogs per sample: 2.375
+average not ok
+
+
+```
+
+For each one that ends up on our list, we want to:
+ - bring together all sequences from all samples in one file
+ - do multiple sequence alignment
+ - filter the alignment, i.e. remove ambiguous/problematic positions
+ - build a phylogenetic tree
+
+
+If there is time today, show all steps for `EOG090X0007` as an example.
+
+```bash
+(user@host)-$ ID=EOG090X0007
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/clustalo-docker:1.2.4 clustalo -i $ID.fasta -o $ID.clustalo.aln.fasta --threads=3
+
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 Aliscore.pl -N -r 200000000000000000 -i $ID.clustalo.aln.fasta &> aliscore.log
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 ALICUT.pl -s &> alicut.log
+
+(user@host)-$ mkdir find_best_model
+(user@host)-$ cd find_best_model
+(user@host)-$ cp ../ALICUT_$ID.clustalo.aln.fasta .
+(user@host)-$ cmd="ProteinModelSelection.pl ALICUT_$ID.clustalo.aln.fasta"
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 $cmd > $ID.bestmodel
+(user@host)-$ cd ..
+
+(user@host)-$ RAxMLmodel=$(cat find_best_model/$ID.bestmodel | grep "Best" | cut -d ":" -f 2 | tr -d '[:space:]')
+(user@host)-$ bs=100
+(user@host)-$ cmd="raxml -f a -T $threads -m PROTGAMMA$RAxMLmodel -p 12345 -x 12345 -# $bs -s ALICUT_$ID.clustalo.aln.fasta -n $ID.clustalo.aln.ALICUT.$RAxMLmodel &> raxml.log"
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 $cmd
+
+
+```
 __To be continued ..__
