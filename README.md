@@ -366,27 +366,48 @@ For each one that ends up on our list, we want to:
  - build a phylogenetic tree
 
 
-If there is time today, show all steps for `EOG090X0007` as an example.
+Here are all steps for `EOG090X0007` as an example.
 
+Specify the name of the BUSCO gene and the number of CPU cores to use for analyses.
 ```bash
 (user@host)-$ ID=EOG090X0007
-(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/clustalo-docker:1.2.4 clustalo -i $ID.fasta -o $ID.clustalo.aln.fasta --threads=3
+(user@host)-$ threads=3
+```
 
-(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 Aliscore.pl -N -r 200000000000000000 -i $ID.clustalo.aln.fasta &> aliscore.log
-(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 ALICUT.pl -s &> alicut.log
+Perform multiple sequence alignment with [clustalo](http://www.clustal.org/omega/).
+```bash
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/clustalo-docker:1.2.4 \
+clustalo -i $ID.fasta -o $ID.clustalo.aln.fasta --threads=$threads
+```
 
+Score and filter the alignment, using [Aliscore](https://www.zfmk.de/en/research/research-centres-and-groups/aliscore) and [Alicut](https://github.com/PatrickKueck/AliCUT) programs. 
+```bash
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 \
+Aliscore.pl -N -r 200000000000000000 -i $ID.clustalo.aln.fasta &> aliscore.log
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 \
+ALICUT.pl -s &> alicut.log
+```
+
+Find best model of evolution (first set up a new directory to keep things organized) using a script from [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/).
+```bash
 (user@host)-$ mkdir find_best_model
 (user@host)-$ cd find_best_model
 (user@host)-$ cp ../ALICUT_$ID.clustalo.aln.fasta .
-(user@host)-$ cmd="ProteinModelSelection.pl ALICUT_$ID.clustalo.aln.fasta"
-(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 $cmd > $ID.bestmodel
+
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 \
+ProteinModelSelection.pl ALICUT_$ID.clustalo.aln.fasta > $ID.bestmodel
+
 (user@host)-$ cd ..
-
-(user@host)-$ RAxMLmodel=$(cat find_best_model/$ID.bestmodel | grep "Best" | cut -d ":" -f 2 | tr -d '[:space:]')
-(user@host)-$ bs=100
-(user@host)-$ cmd="raxml -f a -T $threads -m PROTGAMMA$RAxMLmodel -p 12345 -x 12345 -# $bs -s ALICUT_$ID.clustalo.aln.fasta -n $ID.clustalo.aln.ALICUT.$RAxMLmodel &> raxml.log"
-(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 $cmd
-
-
 ```
+
+Infer phylogenetic tree using [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/).
+```bash
+(user@host)-$ RAxMLmodel=$(cat find_best_model/$ID.bestmodel | grep "Best" | cut -d ":" -f 2 | tr -d '[:space:]') #this line reads in the file that countains the output from the best model search, reformats it and saves it to a variable
+(user@host)-$ bs=100 #set the number of bootstrap replicates
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 \
+raxml -f a -T $threads -m PROTGAMMA$RAxMLmodel \
+-p 12345 -x 12345 -# $bs \
+-s ALICUT_$ID.clustalo.aln.fasta -n $ID.clustalo.aln.ALICUT.$RAxMLmodel &> raxml.log
+```
+
 __To be continued ..__
