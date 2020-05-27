@@ -1,0 +1,15 @@
+# BUSCO version is: 3.1.0 
+# The lineage dataset is: arthropoda_odb9 (Creation date: 2017-02-07, number of species: 60, number of BUSCOs: 1066)
+# To reproduce this run: python /usr/bin/run_BUSCO.py -i /cl_tmp/hahnc/Oribatid/transcriptomes/GEXX01.1.fsa_nt -o A_coleoptrara.A_coleoptrata.GEXX01.1 -l /usr/people/EDVZ/hahnc/BUSCOS/arthropoda_odb9/ -m transcriptome -c 8 --long
+#
+# Summarized benchmarking in BUSCO notation for file /cl_tmp/hahnc/Oribatid/transcriptomes/GEXX01.1.fsa_nt
+# BUSCO was run in mode: transcriptome
+
+	C:95.5%[S:60.7%,D:34.8%],F:1.3%,M:3.2%,n:1066
+
+	1018	Complete BUSCOs (C)
+	647	Complete and single-copy BUSCOs (S)
+	371	Complete and duplicated BUSCOs (D)
+	14	Fragmented BUSCOs (F)
+	34	Missing BUSCOs (M)
+	1066	Total BUSCO groups searched
