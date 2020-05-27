@@ -1,0 +1,15 @@
+# BUSCO version is: 3.1.0 
+# The lineage dataset is: arthropoda_odb9 (Creation date: 2017-02-07, number of species: 60, number of BUSCOs: 1066)
+# To reproduce this run: python /usr/bin/run_BUSCO.py -i /cl_tmp/hahnc/Oribatid/transcriptomes/GCF_000239435.1_ASM23943v1_genomic.fna -o T_urticae.T_urticae.GCF_000239435.1_ASM23943v1 -l /usr/people/EDVZ/hahnc/BUSCOS/arthropoda_odb9/ -m genome -c 8 --long -sp fly --augustus_parameters '--progress=true'
+#
+# Summarized benchmarking in BUSCO notation for file /cl_tmp/hahnc/Oribatid/transcriptomes/GCF_000239435.1_ASM23943v1_genomic.fna
+# BUSCO was run in mode: genome
+
+	C:92.8%[S:87.8%,D:5.0%],F:1.3%,M:5.9%,n:1066
+
+	989	Complete BUSCOs (C)
+	936	Complete and single-copy BUSCOs (S)
+	53	Complete and duplicated BUSCOs (D)
+	14	Fragmented BUSCOs (F)
+	63	Missing BUSCOs (M)
+	1066	Total BUSCO groups searched

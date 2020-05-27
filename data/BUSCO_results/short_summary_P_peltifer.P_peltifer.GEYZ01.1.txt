@@ -1,0 +1,15 @@
+# BUSCO version is: 3.1.0 
+# The lineage dataset is: arthropoda_odb9 (Creation date: 2017-02-07, number of species: 60, number of BUSCOs: 1066)
+# To reproduce this run: python /usr/bin/run_BUSCO.py -i /cl_tmp/hahnc/Oribatid/genes/Platynothrus_peltifer/ASSEMBLY_EVALUATION/P_peltifer.fasta -o P_peltifer.P_peltifer.GEYZ01.1 -l /usr/people/EDVZ/hahnc/BUSCOS/arthropoda_odb9/ -m transcriptome -c 8 --long
+#
+# Summarized benchmarking in BUSCO notation for file /cl_tmp/hahnc/Oribatid/genes/Platynothrus_peltifer/ASSEMBLY_EVALUATION/P_peltifer.fasta
+# BUSCO was run in mode: transcriptome
+
+	C:84.3%[S:64.3%,D:20.0%],F:11.4%,M:4.3%,n:1066
+
+	898	Complete BUSCOs (C)
+	685	Complete and single-copy BUSCOs (S)
+	213	Complete and duplicated BUSCOs (D)
+	122	Fragmented BUSCOs (F)
+	46	Missing BUSCOs (M)
+	1066	Total BUSCO groups searched
