@@ -380,7 +380,7 @@ Perform multiple sequence alignment with [clustalo](http://www.clustal.org/omega
 clustalo -i $ID.fasta -o $ID.clustalo.aln.fasta --threads=$threads
 ```
 
-We can then look at the alignment result. There is a number of programs available to do that, e.g. MEGA, Jalview, Aliview, or you can do it online (thanks to Hannes for the tip). A link to the upload client for the NCBI Multiple Sequence Alignment Viewer is [here](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) (I suggest to open in new tab). Upload (`EOG090X0007.clustalo.aln.fasta`), press 'Close' button, and have a look.
+We can then look at the alignment result. There is a number of programs available to do that, e.g. MEGA, Jalview, Aliview, or you can do it online (thanks to @HannesOberreiter for the tip). A link to the upload client for the NCBI Multiple Sequence Alignment Viewer is [here](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) (I suggest to open in new tab). Upload (`EOG090X0007.clustalo.aln.fasta`), press 'Close' button, and have a look.
 
 What do you think? It's actually quite messy.. 
 
@@ -412,7 +412,7 @@ The RAxML command in a nutshell:
  - `-f a` - use rapid bootstrapping mode (search for the best-scoring ML tree and run bootstrap in one analysis)
  - `-T` - number of CPU threads to use
  - `-m` - model of protein evolution - note that we add in the content of our variable `$RAxMLmodel`
- - `-p 12345' - Specify a random number seed for the parsimony inferences (which give will become the basis for the ML inference, which is much more computationally intensive). The number doesn't affect the result, but it allows you to reproduce your analyses, so run twice with the same seed, should give the exact same tree.
+ - `-p 12345` - Specify a random number seed for the parsimony inferences (which give will become the basis for the ML inference, which is much more computationally intensive). The number doesn't affect the result, but it allows you to reproduce your analyses, so run twice with the same seed, should give the exact same tree.
  - `-x 12345` - seed number for rapid bootstrapping. For reproducibility, similar to above.
  - `-# $bs` - number of bootstrap replicates - note that we put the variable `$bs` here that we've defined above
  - `-s` - input fasta file (the filtered alignemnt)
