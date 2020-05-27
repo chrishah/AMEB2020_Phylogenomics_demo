@@ -380,15 +380,21 @@ Perform multiple sequence alignment with [clustalo](http://www.clustal.org/omega
 clustalo -i $ID.fasta -o $ID.clustalo.aln.fasta --threads=$threads
 ```
 
-Score and filter the alignment, using [Aliscore](https://www.zfmk.de/en/research/research-centres-and-groups/aliscore) and [Alicut](https://github.com/PatrickKueck/AliCUT) programs. 
+We can then look at the alignment result. There is a number of programs available to do that, e.g. MEGA, Jalview, Aliview, or you can do it online (thanks to Hannes for the tip). A link to the upload client for the NCBI Multiple Sequence Alignment Viewer is [here](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) (I suggest to open in new tab). Upload (`EOG090X0007.clustalo.aln.fasta`), press 'Close' button, and have a look.
+
+What do you think? It's actually quite messy.. 
+
+Let's move on to score and filter the alignment, using [Aliscore](https://www.zfmk.de/en/research/research-centres-and-groups/aliscore) and [Alicut](https://github.com/PatrickKueck/AliCUT) programs. 
 ```bash
 (user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 \
 Aliscore.pl -N -r 200000000000000000 -i $ID.clustalo.aln.fasta &> aliscore.log
 (user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 \
 ALICUT.pl -s &> alicut.log
 ```
+Try open the upload [dialog](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) for the Alignment viewer in a new tab and upload the new file (`ALICUT_EOG090X0007.clustalo.aln.fasta`).
+What do you think? The algorithm has removed some 9000 bp of the original alignment, reducing it to only ~500, but these look much better. 
 
-Find best model of evolution (first set up a new directory to keep things organized) using a script from [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/).
+Find best model of evolution for phylogenetic inference (first set up a new directory to keep things organized) using a script from [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/).
 ```bash
 (user@host)-$ mkdir find_best_model
 (user@host)-$ cd find_best_model
@@ -397,10 +403,21 @@ Find best model of evolution (first set up a new directory to keep things organi
 (user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 \
 ProteinModelSelection.pl ALICUT_$ID.clustalo.aln.fasta > $ID.bestmodel
 
-(user@host)-$ cd ..
+(user@host)-$ cd .. #move back to the base directory (if you forget the following will not work, because the location of the files will not fit to the command - happened to me before ;-)
 ```
 
-Infer phylogenetic tree using [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/).
+Infer phylogenetic tree using [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/). The first line just reads the output from the previous command, i.e. the best model, reformats it and writes it and saves it in a variable. 
+
+The RAxML command in a nutshell:
+ - `-f a` - use rapid bootstrapping mode (search for the best-scoring ML tree and run bootstrap in one analysis)
+ - `-T` - number of CPU threads to use
+ - `-m` - model of protein evolution - note that we add in the content of our variable `$RAxMLmodel`
+ - `-p 12345' - Specify a random number seed for the parsimony inferences (which give will become the basis for the ML inference, which is much more computationally intensive). The number doesn't affect the result, but it allows you to reproduce your analyses, so run twice with the same seed, should give the exact same tree.
+ - `-x 12345` - seed number for rapid bootstrapping. For reproducibility, similar to above.
+ - `-# $bs` - number of bootstrap replicates - note that we put the variable `$bs` here that we've defined above
+ - `-s` - input fasta file (the filtered alignemnt)
+ - `-n` - prefix for output files to be generated
+
 ```bash
 (user@host)-$ RAxMLmodel=$(cat find_best_model/$ID.bestmodel | grep "Best" | cut -d ":" -f 2 | tr -d '[:space:]') #this line reads in the file that countains the output from the best model search, reformats it and saves it to a variable
 (user@host)-$ bs=100 #set the number of bootstrap replicates
