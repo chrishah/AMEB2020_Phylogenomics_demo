@@ -1,1 +1,5 @@
-assemblies/
+# ignore working directories
+assemblies
+arthropoda_odb9
+genes
+analyses
