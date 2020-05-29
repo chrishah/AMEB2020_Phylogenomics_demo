@@ -456,19 +456,19 @@ Now, let's concatenate all files into a single supermatrix using `FASconCAT-g` (
 ```bash
 (user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/fasconcat-g:1.04 \
 FASconCAT-G.pl -a -a -s > concat.log
-
+#remove the indivdiual alignment files. We don't need them any more.
 (user@host)-$ rm *.aln.fas
 
 ```
 
-Took a few seconds. We can look at the logfile `concat.log` to get some info about our supermatrix.
+Took a few seconds. We can look at the logfile `concat.log` to get some info about our supermatrix. The info is also there in an excel table `FcC_info.xls`.
 ```bash
 (user@host)-$ less concat.log
 ```
 
-Now, we're ready to build our phylogenomic tree.
+Now, we're ready to build our phylogenomic tree. First we need to put two more files in place. I'll do that in a new directory. First, I just copy the supermatrix from the previous step to here. Second, I create a so-called partition file `partitions.txt`, that contains the coordinates of the original genes in the supermatrix and specifies the best model of protein evolution we've determined before. I'll get this info from the output of FASconCAT and our individual gene analyses with some 'bash-magic'.
 ```bash
-cd ..
+(user@host)-$ cd ..
 (user@host)-$ mkdir phylogenomic-ML
 (user@host)-$ cd phylogenomic-ML
 
