@@ -405,4 +405,36 @@ raxml -f a -T $threads -m PROTGAMMA$RAxMLmodel \
 -s ALICUT_$ID.clustalo.aln.fasta -n $ID.clustalo.aln.ALICUT.$RAxMLmodel &> raxml.log
 ```
 
+This runs for a while. RAxML produces a log file that we can inspect. Just looking at the last 15 lines with the `tail` command.
+```bash
+(user@host)-$ tail -n 15 RAxML_info.EOG090X04G3.clustalo.aln.ALICUT.LGF
+
+Found 1 tree in File /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/RAxML_bestTree.EOG090X04G3.clustalo.aln.ALICUT.LGF
+
+Program execution info written to /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/RAxML_info.EOG090X04G3.clustalo.aln.ALICUT.LGF
+All 100 bootstrapped trees written to: /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/RAxML_bootstrap.EOG090X04G3.clustalo.aln.ALICUT.LGF
+
+Best-scoring ML tree written to: /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/RAxML_bestTree.EOG090X04G3.clustalo.aln.ALICUT.LGF
+
+Best-scoring ML tree with support values written to: /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/RAxML_bipartitions.EOG090X04G3.clustalo.aln.ALICUT.LGF
+
+Best-scoring ML tree with support values as branch labels written to: /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/RAxML_bipartitionsBranchLabels.EOG090X04G3.clustalo.aln.ALICUT.LGF
+
+Overall execution time for full ML analysis: 99.661946 secs or 0.027684 hours or 0.001153 days
+
+```
+
+And of course, we get our best scoring Maximum Likelihood tree.
+```bash
+(user@host)-$ cat RAxML_bipartitions.EOG090X04G3.clustalo.aln.ALICUT.LGF 
+(Brevipalpus_yothersi:0.43039306117005621255,(Steganacarus_magnus:0.09680068148564281716,(Hypochthonius_rufulus:0.20675998146041871251,(Achipteria_coleoptrata:0.15727077153973773038,(Hermannia_gibba:0.10769294466691085865,(Platynothrus_peltifer:0.03340722062320617552,Nothurs_palustris:0.08095982609739513225)76:0.03142039453455876957)29:0.01750097415629610353)62:0.03268431994817945496)50:0.03513499598331231571)100:0.61901499059949005588,Tetranychus_urticae:0.59243976530101283284);
+```
+.. in the Newick tree format. There is a bunch of programs that allow you to view and manipulate trees in this format. You can only do it online, for example through [ETE3](http://etetoolkit.org/treeview/), [icytree](https://icytree.org/), or [trex](http://www.trex.uqam.ca/index.php?action=newick&project=trex). You can try it out.
+
+Now, let's say we want to go over this process for each of our 880+ genes that passd our filtering criteria. A script that does all the above steps run for each BUSCO would do it. I've made a very simple one that also fetches the individual genes for each of the BUSCO ids. You could try e.g. this.
+
+```bash
+
+```
+ 
 __To be continued ..__

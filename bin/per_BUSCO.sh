@@ -1,10 +1,11 @@
 
 ID=$1
 threads=$2
-basedir=/home/monogen/Desktop/Oribatid_2/genes
+basedir=$3
+ingroup=ingroup.txt
+outgroup=outgroup.txt
 
 echo -e "\n###\nprocessing ID: $ID"
-
 
 if [ ! -d "$ID" ]
 then
@@ -13,7 +14,7 @@ fi
 
 cd $ID
 echo -n "" > $ID.fasta
-for out in $(cat ../outgroup.txt)
+for out in $(cat ../$outgroup)
 do
 	echo -ne "ID: $ID - sample: $out - "
 	single=$(cat $(grep -P "$out" <(find $basedir -name "full_*")) | grep "Complete" | grep "$ID" | cut -f 1)
@@ -27,7 +28,7 @@ do
 #		echo -e ">$out\n-" >> $ID.fasta
 	fi
 done
-for sample in $(cat ../ingroup.txt)
+for sample in $(cat ../$ingroup)
 do
 	echo -ne "ID: $ID - sample: $sample - "
 	trans=$(grep -P "$ID" $(grep -P "$sample" <(find $basedir -name "full_*")) | sort -nr -k 4 | head -n 1 | cut -f 3)
