@@ -431,10 +431,70 @@ And of course, we get our best scoring Maximum Likelihood tree.
 ```
 .. in the Newick tree format. There is a bunch of programs that allow you to view and manipulate trees in this format. You can only do it online, for example through [ETE3](http://etetoolkit.org/treeview/), [icytree](https://icytree.org/), or [trex](http://www.trex.uqam.ca/index.php?action=newick&project=trex). You can try it out.
 
-Now, let's say we want to go over this process for each of our 880+ genes that passd our filtering criteria. A script that does all the above steps run for each BUSCO would do it. I've made a very simple one that also fetches the individual genes for each of the BUSCO ids. You could try e.g. this.
+Now, let's say we want to go over this process for each of our 880+ genes that passd our filtering criteria. A script that does all the above steps run for each BUSCO would do it. I've made a very simple one that also fetches the individual genes for each of the BUSCO ids. You could try e.g. this, assuming you've run the BUSCO analyses for all datasets and they are all in the `genes/` directory, if you are in the `analyses/per_gene/` directory.
 
 ```bash
-
+(user@host)-$ for g in $(cat ../pre-filtering/evaluate.all.tsv | grep "pass$" | cut -f 1 | head -n 3)
+do
+	../../bin/per_BUSCO.sh $g 3 ../../genes/
+done 
 ```
  
+Next step is to concatenate all trimmed alignments into a single supermatrix. Let's do that in a new directory.
+```bash
+(user@host)-$ cd ../
+(user@host)-$ cd post-filtering-concat
+(user@host)-$ cd post-filtering-concat
+```
+
+I've made a simple script that finds the trimmed alignments given our data structure and only keeps alignemnts that are longer than 200 amino acids.
+```bash
+(user@host)-$ ../../bin/post-filter.sh ../../data/checkpoints/per_gene/OTHERS/
+```
+
+Now, let's concatenate all files into a single supermatrix using `FASconCAT-g` (see [here](https://www.zfmk.de/en/research/research-centres-and-groups/fasconcat-g)).
+```bash
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/fasconcat-g:1.04 \
+FASconCAT-G.pl -a -a -s > concat.log
+
+(user@host)-$ rm *.aln.fas
+
+```
+
+Took a few seconds. We can look at the logfile `concat.log` to get some info about our supermatrix.
+```bash
+(user@host)-$ less concat.log
+```
+
+Now, we're ready to build our phylogenomic tree.
+```bash
+cd ..
+(user@host)-$ mkdir phylogenomic-ML
+(user@host)-$ cd phylogenomic-ML
+
+#get supermatrix
+(user@host)-$ cp ../post-filtering-concat/FcC_supermatrix.fas .
+
+#create partitions file
+(user@host)-$ for line in $(cat ../post-filtering-concat/FcC_info.xls | grep "ALICUT" | cut -f 1-3 | sed 's/\t/|/g')
+do
+	id=$(echo -e "$line" | cut -d "|" -f 1 | sed 's/ALICUT_//' | sed 's/.clustalo.*//')
+	model=$(cat $(find ../per_gene/ -name "$id.bestmodel") | grep "Best" | cut -d ":" -f 2 | tr -d '[:space:]')
+	echo -e "$model, $id = $(echo -e "$line" | cut -d "|" -f 2,3 | sed 's/|/-/')"
+done > partitions.txt
+
+```
+
+Run RAxML.
+```bash
+(user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/raxml-docker:8.2.12 \
+raxml -f a -T 3 -m PROTGAMMAWAG -p 12345 -q ./partitions.txt -x 12345 -# 100 -s FcC_supermatrix.fas -n super
+```
+
+This will run for a relatively long time.
+
+I've deposited the final tree under `data/checkpoints/phylogenomics_ML/RAxML_bipartitions.alignment_min6`.
+
+We can inspect it in one of the above mentioned online tree viewers. 
+
 __To be continued ..__
