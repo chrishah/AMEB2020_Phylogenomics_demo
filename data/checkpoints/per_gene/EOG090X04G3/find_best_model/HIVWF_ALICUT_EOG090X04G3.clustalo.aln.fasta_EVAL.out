@@ -1,0 +1,290 @@
+
+WARNING: The number of threads is currently set to 0
+You can specify the number of threads to run via -T numberOfThreads
+NumberOfThreads must be set to an integer value greater than 1
+
+RAxML, will now set the number of threads automatically to 2 !
+
+
+RAxML can't, parse the alignment file as phylip file 
+it will now try to parse it as FASTA file
+
+
+This is the RAxML Master Pthread
+
+This is RAxML Worker Pthread Number: 1
+
+
+This is RAxML version 8.2.12 released by Alexandros Stamatakis on May 2018.
+
+With greatly appreciated code contributions by:
+Andre Aberer      (HITS)
+Simon Berger      (HITS)
+Alexey Kozlov     (HITS)
+Kassian Kobert    (HITS)
+David Dao         (KIT and HITS)
+Sarah Lutteropp   (KIT and HITS)
+Nick Pattengale   (Sandia)
+Wayne Pfeiffer    (SDSC)
+Akifumi S. Tanabe (NRIFS)
+Charlie Taylor    (UF)
+
+
+Alignment has 382 distinct alignment patterns
+
+Proportion of gaps and completely undetermined characters in this alignment: 7.33%
+
+RAxML Model Optimization up to an accuracy of 0.100000 log likelihood units
+
+Using 1 distinct models/data partitions with joint branch length optimization
+
+
+All free model parameters will be estimated by RAxML
+GAMMA model of rate heterogeneity, ML estimate of alpha-parameter
+
+GAMMA Model parameters will be estimated up to an accuracy of 0.1000000000 Log Likelihood units
+
+Partition: 0
+Alignment Patterns: 382
+Name: No Name Provided
+DataType: AA
+Substitution Matrix: HIVW
+Using empirical base frequencies
+
+
+
+
+RAxML was called as follows:
+
+raxml -f e -m PROTGAMMAHIVWF -s ALICUT_EOG090X04G3.clustalo.aln.fasta -t RAxML_parsimonyTree.ST_ALICUT_EOG090X04G3.clustalo.aln.fasta -n HIVWF_ALICUT_EOG090X04G3.clustalo.aln.fasta_EVAL 
+
+
+
+Model parameters (binary file format) written to: /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/find_best_model/RAxML_binaryModelParameters.HIVWF_ALICUT_EOG090X04G3.clustalo.aln.fasta_EVAL
+0.249306 -4982.217354
+
+
+Overall Time for Tree Evaluation 0.260521
+Final GAMMA  likelihood: -4982.217354
+
+Number of free parameters for AIC-TEST(BR-LEN): 33
+Number of free parameters for AIC-TEST(NO-BR-LEN): 20
+
+
+Model Parameters of Partition 0, Name: No Name Provided, Type of Data: AA
+alpha: 0.607808
+Tree-Length: 3.552685
+rate A <-> R: 0.015684
+rate A <-> N: 0.130032
+rate A <-> D: 0.933947
+rate A <-> C: 0.035304
+rate A <-> Q: 0.001053
+rate A <-> E: 1.171484
+rate A <-> G: 0.393460
+rate A <-> H: 0.001053
+rate A <-> I: 0.001053
+rate A <-> L: 0.033743
+rate A <-> K: 0.124826
+rate A <-> M: 0.001053
+rate A <-> F: 0.125908
+rate A <-> P: 0.212641
+rate A <-> S: 1.809728
+rate A <-> T: 5.083756
+rate A <-> W: 0.001053
+rate A <-> Y: 0.001053
+rate A <-> V: 5.224252
+rate R <-> N: 0.033743
+rate R <-> D: 0.014204
+rate R <-> C: 0.603012
+rate R <-> Q: 2.247809
+rate R <-> E: 0.005299
+rate R <-> G: 2.829693
+rate R <-> H: 1.441189
+rate R <-> I: 0.282316
+rate R <-> L: 0.123557
+rate R <-> K: 8.399794
+rate R <-> M: 0.692061
+rate R <-> F: 0.001053
+rate R <-> P: 0.085225
+rate R <-> S: 1.758356
+rate R <-> T: 0.195457
+rate R <-> W: 1.256218
+rate R <-> Y: 0.001053
+rate R <-> V: 0.058840
+rate N <-> D: 6.192752
+rate N <-> C: 0.012738
+rate N <-> Q: 0.072031
+rate N <-> E: 0.042436
+rate N <-> G: 0.012738
+rate N <-> H: 1.810688
+rate N <-> I: 0.207844
+rate N <-> L: 0.001053
+rate N <-> K: 2.245893
+rate N <-> M: 0.042436
+rate N <-> F: 0.001053
+rate N <-> P: 0.072617
+rate N <-> S: 3.068064
+rate N <-> T: 0.956447
+rate N <-> W: 0.001053
+rate N <-> Y: 1.066512
+rate N <-> V: 0.015684
+rate D <-> C: 0.001053
+rate D <-> Q: 0.001053
+rate D <-> E: 2.552870
+rate D <-> G: 2.189333
+rate D <-> H: 0.488070
+rate D <-> I: 0.030560
+rate D <-> L: 0.001053
+rate D <-> K: 0.188320
+rate D <-> M: 0.001053
+rate D <-> F: 0.001053
+rate D <-> P: 0.001053
+rate D <-> S: 0.090101
+rate D <-> T: 0.132746
+rate D <-> W: 0.001053
+rate D <-> Y: 0.480436
+rate D <-> V: 0.614430
+rate C <-> Q: 0.001053
+rate C <-> E: 0.001053
+rate C <-> G: 0.010314
+rate C <-> H: 0.001053
+rate C <-> I: 0.001053
+rate C <-> L: 0.001053
+rate C <-> K: 0.001053
+rate C <-> M: 0.001053
+rate C <-> F: 0.076430
+rate C <-> P: 0.001053
+rate C <-> S: 0.236255
+rate C <-> T: 0.001053
+rate C <-> W: 1.157942
+rate C <-> Y: 1.757958
+rate C <-> V: 0.001053
+rate Q <-> E: 0.675223
+rate Q <-> G: 0.012738
+rate Q <-> H: 3.905439
+rate Q <-> I: 0.007207
+rate Q <-> L: 0.608664
+rate Q <-> K: 2.752327
+rate Q <-> M: 0.001053
+rate Q <-> F: 0.001053
+rate Q <-> P: 0.641207
+rate Q <-> S: 0.033743
+rate Q <-> T: 0.042766
+rate Q <-> W: 0.009335
+rate Q <-> Y: 0.001053
+rate Q <-> V: 0.001053
+rate E <-> G: 3.112327
+rate E <-> H: 0.001053
+rate E <-> I: 0.008223
+rate E <-> L: 0.027341
+rate E <-> K: 5.045937
+rate E <-> M: 0.001053
+rate E <-> F: 0.001053
+rate E <-> P: 0.001053
+rate E <-> S: 0.001053
+rate E <-> T: 0.096600
+rate E <-> W: 0.001053
+rate E <-> Y: 0.001053
+rate E <-> V: 0.463165
+rate G <-> H: 0.001053
+rate G <-> I: 0.001053
+rate G <-> L: 0.010314
+rate G <-> K: 0.058840
+rate G <-> M: 0.010314
+rate G <-> F: 0.001053
+rate G <-> P: 0.001053
+rate G <-> S: 1.322343
+rate G <-> T: 0.010314
+rate G <-> W: 0.595044
+rate G <-> Y: 0.001053
+rate G <-> V: 0.588815
+rate H <-> I: 0.001053
+rate H <-> L: 0.371417
+rate H <-> K: 0.047182
+rate H <-> M: 0.001053
+rate H <-> F: 0.001053
+rate H <-> P: 2.936349
+rate H <-> S: 0.152700
+rate H <-> T: 0.202060
+rate H <-> W: 0.001053
+rate H <-> Y: 10.000000
+rate H <-> V: 0.174247
+rate I <-> L: 1.916755
+rate I <-> K: 0.172141
+rate I <-> M: 3.644304
+rate I <-> F: 0.312258
+rate I <-> P: 0.001053
+rate I <-> S: 0.155845
+rate I <-> T: 1.971713
+rate I <-> W: 0.001053
+rate I <-> Y: 0.024113
+rate I <-> V: 5.227137
+rate L <-> K: 0.001053
+rate L <-> M: 2.397171
+rate L <-> F: 1.576750
+rate L <-> P: 2.070157
+rate L <-> S: 1.293768
+rate L <-> T: 0.001053
+rate L <-> W: 0.288554
+rate L <-> Y: 0.001053
+rate L <-> V: 0.621922
+rate K <-> M: 0.862442
+rate K <-> F: 0.001053
+rate K <-> P: 0.023569
+rate K <-> S: 0.001053
+rate K <-> T: 0.852414
+rate K <-> W: 0.001053
+rate K <-> Y: 0.001053
+rate K <-> V: 0.026967
+rate M <-> F: 0.001053
+rate M <-> P: 0.001053
+rate M <-> S: 0.082667
+rate M <-> T: 1.561024
+rate M <-> W: 0.001053
+rate M <-> Y: 0.121965
+rate M <-> V: 3.109843
+rate F <-> P: 0.007207
+rate F <-> S: 0.901135
+rate F <-> T: 0.024113
+rate F <-> W: 0.001053
+rate F <-> Y: 0.869104
+rate F <-> V: 0.480112
+rate P <-> S: 3.000491
+rate P <-> T: 0.913268
+rate P <-> W: 0.001053
+rate P <-> Y: 0.001053
+rate P <-> V: 0.001053
+rate S <-> T: 1.335215
+rate S <-> W: 0.231962
+rate S <-> Y: 0.196497
+rate S <-> V: 0.181650
+rate T <-> W: 0.001053
+rate T <-> Y: 0.103310
+rate T <-> V: 0.001053
+rate W <-> Y: 0.001053
+rate W <-> V: 0.001053
+rate Y <-> V: 0.285292
+
+freq pi(A): 0.050484
+freq pi(R): 0.037991
+freq pi(N): 0.045640
+freq pi(D): 0.054819
+freq pi(C): 0.010964
+freq pi(Q): 0.061703
+freq pi(E): 0.067568
+freq pi(G): 0.043600
+freq pi(H): 0.048190
+freq pi(I): 0.047680
+freq pi(L): 0.101734
+freq pi(K): 0.094085
+freq pi(M): 0.023967
+freq pi(F): 0.026517
+freq pi(P): 0.045640
+freq pi(S): 0.114992
+freq pi(T): 0.052779
+freq pi(W): 0.004080
+freq pi(Y): 0.030087
+freq pi(V): 0.037481
+
+Final tree written to:                 /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/find_best_model/RAxML_result.HIVWF_ALICUT_EOG090X04G3.clustalo.aln.fasta_EVAL
+Execution Log File written to:         /cl_tmp/hahnc/Oribatid_2/analyses/test/test/EOG090X04G3/find_best_model/RAxML_log.HIVWF_ALICUT_EOG090X04G3.clustalo.aln.fasta_EVAL

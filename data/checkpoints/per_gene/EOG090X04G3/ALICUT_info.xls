@@ -1,0 +1,3 @@
+
+Used List File	Used Fasta file	remove triplets	remove 3rd position	number taxa	bp before	bp after	remaining bp [%]	sequence type
+EOG090X04G3.clustalo.aln.fasta_List_random.txt	EOG090X04G3.clustalo.aln.fasta	no	no	8	1605	529	33,0	aa

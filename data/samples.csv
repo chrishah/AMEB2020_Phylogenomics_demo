@@ -1,9 +1,9 @@
 #species,in/outgroup,reference,group,data type,NCBI URL
 Achipteria coleoptrata,ingroup,Brandt et al. 2017,Brachypylina,transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/XX/GEXX01/GEXX01.1.fsa_nt.gz
-Hermannia gibba,ingroup,Brandt et al. 2017,'Desmononomata',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YB/GEYB01/GEYB01.1.fsa_nt.gz
-Nothrus palustris,ingroup,Brandt et al. 2017,'Desmononomata',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YJ/GEYJ01/GEYJ01.1.fsa_nt.gz
+Hermannia gibba,ingroup,Brandt et al. 2017,'Desmonomata',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YB/GEYB01/GEYB01.1.fsa_nt.gz
+Nothrus palustris,ingroup,Brandt et al. 2017,'Desmonomata',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YJ/GEYJ01/GEYJ01.1.fsa_nt.gz
 Steganacarus magnus,ingroup,Brandt et al. 2017,'Mixonomata',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YQ/GEYQ01/GEYQ01.1.fsa_nt.gz
 Hypochthonius rufulus,ingroup,Brandt et al. 2017,'Enarthronota',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YP/GEYP01/GEYP01.1.fsa_nt.gz
-Platynothrus peltifer,ingroup,Brandt et al. 2017,'Desmononomata',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YZ/GEYZ01/GEYZ01.1.fsa_nt.gz
+Platynothrus peltifer,ingroup,Brandt et al. 2017,'Desmonomata',transcriptome,https://sra-download.ncbi.nlm.nih.gov/traces/wgs03/wgs_aux/GE/YZ/GEYZ01/GEYZ01.1.fsa_nt.gz
 Tetranychus urticae,outgroup,Grbić et al. 2011,Trombidiformes,genome,ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/239/435/GCF_000239435.1_ASM23943v1/GCF_000239435.1_ASM23943v1_genomic.fna.gz
 Brevipalpus yothersi,outgroup,Navia et al. 2019,Trombidiformes,genome,ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/956/705/GCA_003956705.1_VIB_BreviYothersi_1.0/GCA_003956705.1_VIB_BreviYothersi_1.0_genomic.fna.gz

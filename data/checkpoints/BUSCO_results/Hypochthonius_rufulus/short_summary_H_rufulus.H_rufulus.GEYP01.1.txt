@@ -1,0 +1,15 @@
+# BUSCO version is: 3.1.0 
+# The lineage dataset is: arthropoda_odb9 (Creation date: 2017-02-07, number of species: 60, number of BUSCOs: 1066)
+# To reproduce this run: python /usr/bin/run_BUSCO.py -i /cl_tmp/hahnc/Oribatid/genes/Hypochthonius_rufulus/ASSEMBLY_EVALUATION/H_rufulus.fasta -o H_rufulus.H_rufulus.GEYP01.1 -l /usr/people/EDVZ/hahnc/BUSCOS/arthropoda_odb9/ -m transcriptome -c 8 --long
+#
+# Summarized benchmarking in BUSCO notation for file /cl_tmp/hahnc/Oribatid/genes/Hypochthonius_rufulus/ASSEMBLY_EVALUATION/H_rufulus.fasta
+# BUSCO was run in mode: transcriptome
+
+	C:92.4%[S:66.6%,D:25.8%],F:4.1%,M:3.5%,n:1066
+
+	985	Complete BUSCOs (C)
+	710	Complete and single-copy BUSCOs (S)
+	275	Complete and duplicated BUSCOs (D)
+	44	Fragmented BUSCOs (F)
+	37	Missing BUSCOs (M)
+	1066	Total BUSCO groups searched

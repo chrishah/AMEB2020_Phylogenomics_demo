@@ -236,141 +236,119 @@ Brevipalpus_yothersi
 Tetranychus_urticae
 ```
 
-Let's start by looking at a random gene, say `EOG090X00BY`. You can try to do it manually, i.e. go through all the full tables, search for the gene id and take a note of what the status was. For a 1000 genes that's a bit tedious so I wrote a script to do that: `evaluate.sh`. It's in the `bin/` directory of this repository. I'll just show the first few lines of the code to give you an idea, don't worry about the details for now.
+Let's start by looking at a random gene, say `EOG090X00BY`. You can try to do it manually, i.e. go through all the full tables, search for the gene id and take a note of what the status was. For a 1000 genes that's a bit tedious so I wrote a script to do that: `evaluate.py`. It's in the `bin/` directory of this repository - go [here](https://github.com/chrishah/AMEB2020_Phylogenomics_demo/blob/master/bin/evaluate.py), if you're interested in the code.
+
+You can execute it like so:
 ```bash
-(user@host)-$ cat bin/evaluate.sh
-#!/bin/bash
+(user@host)-$ ../../bin/evaluate.py
+usage: evaluate.py [-h] -i IN_LIST [--max_mis_in INT] -o OUT_LIST
+                   [--max_mis_out INT] [--max_avg INT] [--max_med INT] -f
+                   TABLES [TABLES ...] [-B [IDs [IDs ...]]] [--outfile FILE]
+```
+Or, like this, if you want some more info:
+```bash
+(user@host)-$ ../../bin/evaluate.py -h
+usage: evaluate.py [-h] -i IN_LIST [--max_mis_in INT] -o OUT_LIST
+                   [--max_mis_out INT] [--max_avg INT] [--max_med INT] -f
+                   TABLES [TABLES ...] [-B [IDs [IDs ...]]] [--outfile FILE]
 
-ID=$1
-ingroupfile=ingroup.txt
-outgroupfile=outgroup.txt
-cutoffingroup=2
-cutoffoutroup=2
-maxavg=2
-maxmed=2
+Pre-filter BUSCO sets for phylogenomic analyses
 
->&2 echo -e "\n###\nprocessing ID: $ID"
-
-#evaluate for how many ingroup samples the given BUSCO is missing or fragmented
-misingroup=$(cat $(grep -f $ingroupfile <(find ../../../genes/ -name "full_table*")) | grep -v "#" | grep -P "$ID" | grep -e "Missing" -e "Fragmented" | cut -f 1| wc -l)
->&2 echo -e "Number of BUSCOs missing or fragmented in the ingroup: $misingroup"
-#evaluate for how many outgroup samples the given BUSCO is missing or fragmented
-misoutgroup=$(cat $(grep -f $outgroupfile <(find ../../../genes/ -name "full_table*")) | grep -v "#" | grep -P "$ID" | grep -e "Missing" -e "Fragmented" | cut -f 1| wc -l)
->&2 echo -e "Number of BUSCOs missing or fragmented in the outgroup: $misoutgroup"
-
-if [ "$misingroup" -lt "$cutoffingroup" ] && [ "$misoutgroup" -lt "$cutoffoutgroup" ]
-then
-        >&2 echo distribution ok
-else
-        >&2 echo distribution not ok
-        exit 1
-fi
-
+optional arguments:
+  -h, --help            show this help message and exit
+  -i IN_LIST, --in_list IN_LIST
+                        path to text file containing the list of ingroup taxa
+  --max_mis_in INT      maximum number of samples without data in the ingroup,
+                        default: 0, i.e. all samples have data
+  -o OUT_LIST, --out_list OUT_LIST
+                        path to text file containing the list of outgroup taxa
+  --max_mis_out INT     maximum number of samples without data in the
+                        outgroup, default: 0, i.e. all samples have data
+  --max_avg INT         maximum average number of paralog
+  --max_med INT         maximum median number of paralogs
+  -f TABLES [TABLES ...], --files TABLES [TABLES ...]
+                        full BUSCO results tables that should be evaluated
+                        (space delimited), e.g. -f table1 table2 table3
+  -B [IDs [IDs ...]], --BUSCOs [IDs [IDs ...]]
+                        list of BUSCO IDs to be evaluated, e.g. -B EOG090X0IQO
+                        EOG090X0GLS
+  --outfile FILE        name of outputfile to write results to
 
 ```
 
-Let's try for our BUSCO `EOG090X00BY`.
+Let's try it for our BUSCO `EOG090X00BY`. We can stitch together the command by following the info from the help (not showing the output here). Note that I specify tables I have deposited as backup data in the repo, for demonstration. If you actually ran BUSCO yourselve according to the instructions above, you should adjust the paths, to e.g. `../../genes/Achipteria_coleoptrata/full_table_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv` and so forth.
 ```bash
-(user@host)-$ ../../bin/evaluate.sh EOG090X00BY
-
-###
-processing ID: EOG090X00BY
-Number of BUSCOs missing or fragmented in the ingroup: 0
-Number of BUSCOs missing or fragmented in the outgroup: 0
-distribution ok
-Average number of paralogs per sample: 1.25
-average ok
-Median number of paralogs per sample: 1
-median ok
-EOG090X00BY
+(user@host)-$ ../../bin/evaluate.py \
+-i ingroup.txt -o outgroup.txt --max_mis_in 1 --max_mis_out 1 \
+--max_avg 2 --max_med 2 \
+-B EOG090X00BY \
+-f ../../data/checkpoints/BUSCO_results/Achipteria_coleoptrata/full_table_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv \
+../../data/checkpoints/BUSCO_results/Brevipalpus_yothersi/full_table_B_yothersi.B_yothersi.GCA_003956705.1_VIB_BreviYothersi_1.0.tsv \
+../../data/checkpoints/BUSCO_results/Hermannia_gibba/full_table_H_gibba.H_gibba.GEYB01.1.tsv \
+../../data/checkpoints/BUSCO_results/Hypochthonius_rufulus/full_table_H_rufulus.H_rufulus.GEYP01.1.tsv \
+../../data/checkpoints/BUSCO_results/Nothurs_palustris/full_table_N_palustris.N_palustris.GEYJ01.1.tsv \
+../../data/checkpoints/BUSCO_results/Platynothrus_peltifer/full_table_P_peltifer.P_peltifer.GEYZ01.1.tsv \
+../../data/checkpoints/BUSCO_results/Steganacarus_magnus/full_table_S_magnus.S_magnus.GEYQ01.1.tsv \
+../../data/checkpoints/BUSCO_results/Tetranychus_urticae/full_table_T_urticae.T_urticae.GCF_000239435.1_ASM23943v1.tsv
 ```
 
-This passes our filter criteria. No genes missing, average number of paralogs per sample < 2 and median number of paralogs is < 2 , as well. Great.
-
-Now, the idea is to run this for all of the BUSCO genes. I would do that as follows - let's build us a complex command. First we need to find a way of getting a list of all BUSCO IDs - Note that I am only showing the first 10 lines of the output.
+This BUSCO passes our filter criteria. No more than one sample missing for either the in- or the outgroup, average number of paralogs per sample <= 2 and median number of paralogs is <= 2 , as well. Great.
+With some 'bash-magic' I don't even need to manually list all the tables (not showing the output here) - again, I am just pointing to my backup tables here, if you actually ran all of the above you'd need to adjust to `-f $(find ../../genes/ -name "full_table*")`.
 ```bash
-(user@host)-$ cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head
-```
-Then, I wrap a for loop around this list.
-```bash
-(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1)
-do
-	echo $B
-done
+(user@host)-$ ../../bin/evaluate.py \
+-i ingroup.txt -o outgroup.txt --max_mis_in 1 --max_mis_out 1 \
+--max_avg 2 --max_med 2 \
+-B EOG090X00BY \
+-f $(find ../../data/checkpoints/BUSCO_results/ -name "full_table*")
 ```
 
-Now I run the script from before for each of the BUSCO ids. We just add one line in the for loop. For this test I also limit the number of ids to be processed to 10, this is what the `head` at the end of line one is doing. If we're satisified we can remove the `head` to get it done for the full list.
-
+And finally, we can just run it across all BUSCO genes, by not specifying any partiular BUSCO Id. Note that I have provided the name for an output file that will receive the summary.
 ```bash
-(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head )
-do
-	../../bin/evaluate.sh $B
-done
-```
-Command line programs can output to two different channels, the so-called standard-out (STDOUT) and standard-error (STDERR). I've designed the script to output different information to different channels. Spefically, I made it that it ouptuts the summary to STDERR and to STDOUT it sends just the IDs of BUSCO genes that pass our filters.
-```bash
-(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head )
-do
-	../../bin/evaluate.sh $B
-done 1> list.txt
-```
+(user@host)-$ ../../bin/evaluate.py \
+-i ingroup.txt -o outgroup.txt --max_mis_in 1 --max_mis_out 1 \
+--max_avg 2 --max_med 2 \
+--outfile evaluate.all.tsv \
+-f $(find ../../data/checkpoints/BUSCO_results/ -name "full_table*") # or -f $(find ../../genes/ -name "full_table*")
 
-Have a look at the list.
-```bash
-(user@host)-$ cat list.txt 
-EOG090X005G
-EOG090X005Q
-EOG090X0064
-EOG090X00BV
-EOG090X00BY
-EOG090X00DN
-EOG090X00E0
-```
-
-I could also write the list and at the same time the summaries to a different file.
-
-```bash
-(user@host)-$ for B in $(cat ../../genes/Achipteria_coleoptrata/run_A_coleoptrara.A_coleoptrata.GEXX01.1/full_table_A_coleoptrara.A_coleoptrata.GEXX01.1.tsv | grep -v "#" | cut -f 1 | head )
-do
-	../../bin/evaluate.sh $B
-done 1> list.txt 2> summaries.txt
-```
-
-Have a look at the summaries (just showing the first few lines here).
-```bash
-(user@host)-$ cat summaries.txt
-
-###
-processing ID: EOG090X0007
-Number of BUSCOs missing or fragmented in the ingroup: 0
-Number of BUSCOs missing or fragmented in the outgroup: 0
-distribution ok
-Average number of paralogs per sample: 2.375
-average not ok
-
-###
-processing ID: EOG090X0007
-Number of BUSCOs missing or fragmented in the ingroup: 0
-Number of BUSCOs missing or fragmented in the outgroup: 0
-distribution ok
-Average number of paralogs per sample: 2.375
-average not ok
-
+# Ingroup taxa: ['Achipteria_coleoptrata', 'Nothurs_palustris', 'Platynothrus_peltifer', 'Hermannia_gibba', 'Steganacarus_magnus', 'Hypochthonius_rufulus']
+# Outgroup taxa ['Brevipalpus_yothersi', 'Tetranychus_urticae']
+# tables included: ['../../data/checkpoints/BUSCO_results/Achipteria_coleoptrata/full_table_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv', '../../data/checkpoints/BUSCO_results/Brevipalpus_yothersi/full_table_B_yothersi.B_yothersi.GCA_003956705.1_VIB_BreviYothersi_1.0.tsv', '../../data/checkpoints/BUSCO_results/Hermannia_gibba/full_table_H_gibba.H_gibba.GEYB01.1.tsv', '../../data/checkpoints/BUSCO_results/Hypochthonius_rufulus/full_table_H_rufulus.H_rufulus.GEYP01.1.tsv', '../../data/checkpoints/BUSCO_results/Nothurs_palustris/full_table_N_palustris.N_palustris.GEYJ01.1.tsv', '../../data/checkpoints/BUSCO_results/Platynothrus_peltifer/full_table_P_peltifer.P_peltifer.GEYZ01.1.tsv', '../../data/checkpoints/BUSCO_results/Steganacarus_magnus/full_table_S_magnus.S_magnus.GEYQ01.1.tsv', '../../data/checkpoints/BUSCO_results/Tetranychus_urticae/full_table_T_urticae.T_urticae.GCF_000239435.1_ASM23943v1.tsv']
+# maximum number of ingroup samples with missing data: 1
+# maximum number of outgroup samples with missing data: 1
+# maximum average number of paralogs: 2
+# maximum median number of paralogs: 2
+#
+# found BUSCO table for taxon Achipteria_coleoptrata -> ingroup
+# found BUSCO table for taxon Brevipalpus_yothersi -> outgroup
+# found BUSCO table for taxon Hermannia_gibba -> ingroup
+# found BUSCO table for taxon Hypochthonius_rufulus -> ingroup
+# found BUSCO table for taxon Nothurs_palustris -> ingroup
+# found BUSCO table for taxon Platynothrus_peltifer -> ingroup
+# found BUSCO table for taxon Steganacarus_magnus -> ingroup
+# found BUSCO table for taxon Tetranychus_urticae -> outgroup
+# Evaluated 1043 BUSCOs - 883 (84.66 %) passed
 
 ```
 
-For each one that ends up on our list, we want to:
+For each of the BUSCOs that passed we want to:
  - bring together all sequences from all samples in one file
  - do multiple sequence alignment
  - filter the alignment, i.e. remove ambiguous/problematic positions
  - build a phylogenetic tree
 
 
-Here are all steps for `EOG090X0007` as an example.
-
-Specify the name of the BUSCO gene and the number of CPU cores to use for analyses.
+Here are all steps for `EOG090X04G3` as an example. I have deposited the intiial fasta file in the data directory.
 ```bash
-(user@host)-$ ID=EOG090X0007
+(user@host)-$ cd ../
+(user@host)-$ mkdir per_gene
+(user@host)-$ mkdir EOG090X04G3
+(user@host)-$ cp ../../data/checkpoints/per_gene/EOG090X04G3/EOG090X04G3.fasta .
+```
+
+Now, step by step.
+Specify the name of the BUSCO gene and the number of CPU cores to use for analyses in variables so you don't have to type it out every time.
+```bash
+(user@host)-$ ID=EOG090X04G3
 (user@host)-$ threads=3
 ```
 
@@ -380,7 +358,7 @@ Perform multiple sequence alignment with [clustalo](http://www.clustal.org/omega
 clustalo -i $ID.fasta -o $ID.clustalo.aln.fasta --threads=$threads
 ```
 
-We can then look at the alignment result. There is a number of programs available to do that, e.g. MEGA, Jalview, Aliview, or you can do it online (thanks to @HannesOberreiter for the tip). A link to the upload client for the NCBI Multiple Sequence Alignment Viewer is [here](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) (I suggest to open in new tab). Upload (`EOG090X0007.clustalo.aln.fasta`), press 'Close' button, and have a look.
+We can then look at the alignment result. There is a number of programs available to do that, e.g. MEGA, Jalview, Aliview, or you can do it online (thanks to [@HannesOberreiter](https://github.com/HannesOberreiter) for the tip). A link to the upload client for the NCBI Multiple Sequence Alignment Viewer is [here](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) (I suggest to open in new tab). Upload (`EOG090X04G3.clustalo.aln.fasta`), press 'Close' button, and have a look.
 
 What do you think? It's actually quite messy.. 
 
@@ -391,7 +369,7 @@ Aliscore.pl -N -r 200000000000000000 -i $ID.clustalo.aln.fasta &> aliscore.log
 (user@host)-$ docker run --rm -v $(pwd):/in -w /in chrishah/alicut-aliscore-docker:2.31 \
 ALICUT.pl -s &> alicut.log
 ```
-Try open the upload [dialog](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) for the Alignment viewer in a new tab and upload the new file (`ALICUT_EOG090X0007.clustalo.aln.fasta`).
+Try open the upload [dialog](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) for the Alignment viewer in a new tab and upload the new file (`ALICUT_EOG090X04G3.clustalo.aln.fasta`).
 What do you think? The algorithm has removed some 9000 bp of the original alignment, reducing it to only ~500, but these look much better. 
 
 Find best model of evolution for phylogenetic inference (first set up a new directory to keep things organized) using a script from [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/).
@@ -406,7 +384,7 @@ ProteinModelSelection.pl ALICUT_$ID.clustalo.aln.fasta > $ID.bestmodel
 (user@host)-$ cd .. #move back to the base directory (if you forget the following will not work, because the location of the files will not fit to the command - happened to me before ;-)
 ```
 
-Infer phylogenetic tree using [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/). The first line just reads the output from the previous command, i.e. the best model, reformats it and writes it and saves it in a variable. 
+Infer phylogenetic tree using [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/). The first line just reads the output from the previous command, i.e. the best model, reformats it and saves it in a variable. 
 
 The RAxML command in a nutshell:
  - `-f a` - use rapid bootstrapping mode (search for the best-scoring ML tree and run bootstrap in one analysis)

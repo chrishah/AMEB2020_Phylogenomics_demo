@@ -1,0 +1,13 @@
+Docker image path: index.docker.io/chrishah/raxml-docker:8.2.12
+Cache folder set to /usr/people/EDVZ/hahnc/.singularity/docker
+Creating container runtime...
+Exploding layer: sha256:32802c0cfa4defde2981bec336096350d0bb490469c494e21f678b1dcf6d831f.tar.gz
+Exploding layer: sha256:da1315cffa03c17988ae5c66f56d5f50517652a622afc1611a8bdd6c00b1fde3.tar.gz
+Exploding layer: sha256:fa83472a3562898caaf8d77542181a473a84039376f2ba56254619d9317ba00d.tar.gz
+Exploding layer: sha256:f85999a86bef2603a9e9a4fa488a7c1f82e471cbb76c3b5068e54e1a9320964a.tar.gz
+Exploding layer: sha256:7723740ff1d821c482fa846be6514100099ac99c3f1eb176a91eaf2dc9fac526.tar.gz
+Exploding layer: sha256:22b1e59d1de63d9ff76635c97c9675fdd503c086129937b6217decbdcb96aae1.tar.gz
+Exploding layer: sha256:d74c2be2ce0b07b718c44b981b9bb2cc01ddb41fcf30982c827a156e3cf41656.tar.gz
+Exploding layer: sha256:c6a9ef4b9995d615851d7786fbc2fe72f72321bee1a87d66919b881a0336525a.tar.gz
+Best Model : LGF
+

@@ -1,0 +1,135 @@
+Docker image path: index.docker.io/chrishah/alicut-aliscore-docker:2.31
+Cache folder set to /usr/people/EDVZ/hahnc/.singularity/docker
+Creating container runtime...
+Exploding layer: sha256:7b8b6451c85f072fd0d7961c97be3fe6e2f772657d471254f6d52ad9f158a580.tar.gz
+Exploding layer: sha256:ab4d1096d9ba178819a3f71f17add95285b393e96d08c8a6bfc3446355bcdc49.tar.gz
+Exploding layer: sha256:e6797d1788acd741d33f4530106586ffee568be513d47e6e20a4c9bc3858822e.tar.gz
+Exploding layer: sha256:e25c5c290bded5267364aa9f59a18dd22a8b776d7658a41ffabbf691d8104e36.tar.gz
+Exploding layer: sha256:be17e45afc142f7daaba6fefb2edb4293db22483ef172babe7edc030cc3c3dd1.tar.gz
+[33mWARNING: Warning reading tar header: Ignoring malformed pax extended attribute
+[0mExploding layer: sha256:13e651c6925b55b4d46fcd37e4c4cdaa29dfec1a9d65099e65c4a4b8e6420732.tar.gz
+Exploding layer: sha256:b2cbe14e4d13453535eeb011bffbd02318a309821e3c83db2782aeca7a626d57.tar.gz
+Exploding layer: sha256:f28792be9139d5046d06d63d545059ed3afc5636f87b48c064aee8a0ee16a8b5.tar.gz
+Exploding layer: sha256:2ed56f27ad315578470966d4c4396c46d8da8c4fecded9a8fb0d3e195199d4d0.tar.gz
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LANGUAGE = (unset),
+	LC_ALL = (unset),
+	LANG = "en_GB.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+Argument "-" treated as 0 in increment (++) at /usr/bin/Aliscore.pl line 1213.
+
+	reading taxa from FASTA ...
+
+
+	Achipteria_coleoptra -> sites: 1605  
+	Nothurs_palustris    -> sites: 1605  
+	Tetranychus_urticae  -> sites: 1605  
+	Hermannia_gibba      -> sites: 1605  
+	Hypochthonius_rufulu -> sites: 1605  
+	Platynothrus_peltife -> sites: 1605  
+	Brevipalpus_yothersi -> sites: 1605  
+	Steganacarus_magnus  -> sites: 1605  
+
+
+	data type             : amino acid sequences
+
+	input ...
+
+	infile		: EOG090X04G3.clustalo.aln.fasta
+	random pairs	: 200000000000000000
+	window size	: 6
+	indels		: ambiguous
+	tree file	: -
+	node level	: -
+	strict profile	: -
+	outgroup	: -
+	matrix          : BLOSUM62
+
+	number of taxa        : 8
+	random number of pairs: 200000000000000000
+
+	generates threshhold value for amino acid data
+	using BLOSUM62
+
+	checks for (potential) identical taxa
+
+
+	scores site patterns ...
+
+
+	max number of different pairs is 28
+	max random pairs are scored!
+
+	pair: 1      ->	taxon1: Achipteria	taxon2: Nothurs_pa
+	            	positions below base line: 996
+	pair: 2      ->	taxon1: Achipteria	taxon2: Tetranychu
+	            	positions below base line: 1323
+	pair: 3      ->	taxon1: Achipteria	taxon2: Hermannia_
+	            	positions below base line: 999
+	pair: 4      ->	taxon1: Achipteria	taxon2: Hypochthon
+	            	positions below base line: 1019
+	pair: 5      ->	taxon1: Achipteria	taxon2: Platynothr
+	            	positions below base line: 986
+	pair: 6      ->	taxon1: Achipteria	taxon2: Brevipalpu
+	            	positions below base line: 1139
+	pair: 7      ->	taxon1: Achipteria	taxon2: Steganacar
+	            	positions below base line: 1022
+	pair: 8      ->	taxon1: Nothurs_pa	taxon2: Tetranychu
+	            	positions below base line: 1325
+	pair: 9      ->	taxon1: Nothurs_pa	taxon2: Hermannia_
+	            	positions below base line: 955
+	pair: 10     ->	taxon1: Nothurs_pa	taxon2: Hypochthon
+	            	positions below base line: 1022
+	pair: 11     ->	taxon1: Nothurs_pa	taxon2: Platynothr
+	            	positions below base line: 959
+	pair: 12     ->	taxon1: Nothurs_pa	taxon2: Brevipalpu
+	            	positions below base line: 1154
+	pair: 13     ->	taxon1: Nothurs_pa	taxon2: Steganacar
+	            	positions below base line: 1003
+	pair: 14     ->	taxon1: Tetranychu	taxon2: Hermannia_
+	            	positions below base line: 1333
+	pair: 15     ->	taxon1: Tetranychu	taxon2: Hypochthon
+	            	positions below base line: 1333
+	pair: 16     ->	taxon1: Tetranychu	taxon2: Platynothr
+	            	positions below base line: 1321
+	pair: 17     ->	taxon1: Tetranychu	taxon2: Brevipalpu
+	            	positions below base line: 1245
+	pair: 18     ->	taxon1: Tetranychu	taxon2: Steganacar
+	            	positions below base line: 1311
+	pair: 19     ->	taxon1: Hermannia_	taxon2: Hypochthon
+	            	positions below base line: 1040
+	pair: 20     ->	taxon1: Hermannia_	taxon2: Platynothr
+	            	positions below base line: 977
+	pair: 21     ->	taxon1: Hermannia_	taxon2: Brevipalpu
+	            	positions below base line: 1150
+	pair: 22     ->	taxon1: Hermannia_	taxon2: Steganacar
+	            	positions below base line: 1045
+	pair: 23     ->	taxon1: Hypochthon	taxon2: Platynothr
+	            	positions below base line: 1061
+	pair: 24     ->	taxon1: Hypochthon	taxon2: Brevipalpu
+	            	positions below base line: 1153
+	pair: 25     ->	taxon1: Hypochthon	taxon2: Steganacar
+	            	positions below base line: 1048
+	pair: 26     ->	taxon1: Platynothr	taxon2: Brevipalpu
+	            	positions below base line: 1144
+	pair: 27     ->	taxon1: Platynothr	taxon2: Steganacar
+	            	positions below base line: 1033
+	pair: 28     ->	taxon1: Brevipalpu	taxon2: Steganacar
+	            	positions below base line: 1138
+
+	generates quality profile from collected scores ...
+
+
+	scoring done ...
+
+
+	generates vector plot from collected scores ...
+
+
+	Profile written to EOG090X04G3.clustalo.aln.fasta_Profile_random.txt
+	List   written to EOG090X04G3.clustalo.aln.fasta_List_random.txt
+
+	time used: 5.59 sec
+
