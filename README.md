@@ -140,7 +140,7 @@ For genome assemblies you would do it slightly differently (the below assumes th
 (user@host)-$ mkdir Brevipalpus_yothersi
 (user@host)-$ cd Brevipalpus_yothersi
 
-(user@host)-$ docker run /
+(user@host)-$ docker run \
 -v $(pwd)/../../assemblies/:/assemblies -v $(pwd)/../../arthropoda_odb9:/BUSCOs -v $(pwd):/in \
 --rm -w /in \
 chrishah/busco-docker:v3.1.0 \
@@ -148,7 +148,7 @@ run_BUSCO.py \
 --in /assemblies/GCA_003956705.1_VIB_BreviYothersi_1.0_genomic.fna \
 --out B_yothersi.B_yothersi.GCA_003956705.1_VIB_BreviYothersi_1.0 \
 -l /BUSCOs \
---mode genome -c 4 -f /
+--mode genome -c 4 -f \
 -sp fly --long --augustus_parameters='--progress=true'
 
 ```
