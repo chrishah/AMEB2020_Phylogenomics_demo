@@ -140,7 +140,7 @@ For genome assemblies you would do it slightly differently (the below assumes th
 (user@host)-$ mkdir Brevipalpus_yothersi
 (user@host)-$ cd Brevipalpus_yothersi
 
-(user@host)-$ docker run \
+(user@host)-$ docker run /
 -v $(pwd)/../../assemblies/:/assemblies -v $(pwd)/../../arthropoda_odb9:/BUSCOs -v $(pwd):/in \
 --rm -w /in \
 chrishah/busco-docker:v3.1.0 \
@@ -148,7 +148,7 @@ run_BUSCO.py \
 --in /assemblies/GCA_003956705.1_VIB_BreviYothersi_1.0_genomic.fna \
 --out B_yothersi.B_yothersi.GCA_003956705.1_VIB_BreviYothersi_1.0 \
 -l /BUSCOs \
---mode genome -c 4 -f \
+--mode genome -c 4 -f /
 -sp fly --long --augustus_parameters='--progress=true'
 
 ```
@@ -312,21 +312,21 @@ And finally, we can just run it across all BUSCO genes, by not specifying any pa
 
 # Ingroup taxa: ['Achipteria_coleoptrata', 'Nothurs_palustris', 'Platynothrus_peltifer', 'Hermannia_gibba', 'Steganacarus_magnus', 'Hypochthonius_rufulus']
 # Outgroup taxa ['Brevipalpus_yothersi', 'Tetranychus_urticae']
-# tables included: ['../../data/checkpoints/BUSCO_results/Achipteria_coleoptrata/full_table_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv', '../../data/checkpoints/BUSCO_results/Brevipalpus_yothersi/full_table_B_yothersi.B_yothersi.GCA_003956705.1_VIB_BreviYothersi_1.0.tsv', '../../data/checkpoints/BUSCO_results/Hermannia_gibba/full_table_H_gibba.H_gibba.GEYB01.1.tsv', '../../data/checkpoints/BUSCO_results/Hypochthonius_rufulus/full_table_H_rufulus.H_rufulus.GEYP01.1.tsv', '../../data/checkpoints/BUSCO_results/Nothurs_palustris/full_table_N_palustris.N_palustris.GEYJ01.1.tsv', '../../data/checkpoints/BUSCO_results/Platynothrus_peltifer/full_table_P_peltifer.P_peltifer.GEYZ01.1.tsv', '../../data/checkpoints/BUSCO_results/Steganacarus_magnus/full_table_S_magnus.S_magnus.GEYQ01.1.tsv', '../../data/checkpoints/BUSCO_results/Tetranychus_urticae/full_table_T_urticae.T_urticae.GCF_000239435.1_ASM23943v1.tsv']
+# tables included: ['../../data/checkpoints/BUSCO_results/Nothurs_palustris/full_table_N_palustris.N_palustris.GEYJ01.1.tsv', '../../data/checkpoints/BUSCO_results/Hypochthonius_rufulus/full_table_H_rufulus.H_rufulus.GEYP01.1.tsv', '../../data/checkpoints/BUSCO_results/Tetranychus_urticae/full_table_T_urticae.T_urticae.GCF_000239435.1_ASM23943v1.tsv', '../../data/checkpoints/BUSCO_results/Achipteria_coleoptrata/full_table_A_coleoptrata.A_coleoptrata.GEXX01.1.tsv', '../../data/checkpoints/BUSCO_results/Brevipalpus_yothersi/full_table_B_yothersi.B_yothersi.GCA_003956705.1_VIB_BreviYothersi_1.0.tsv', '../../data/checkpoints/BUSCO_results/Steganacarus_magnus/full_table_S_magnus.S_magnus.GEYQ01.1.tsv', '../../data/checkpoints/BUSCO_results/Platynothrus_peltifer/full_table_P_peltifer.P_peltifer.GEYZ01.1.tsv', '../../data/checkpoints/BUSCO_results/Hermannia_gibba/full_table_H_gibba.H_gibba.GEYB01.1.tsv']
 # maximum number of ingroup samples with missing data: 1
 # maximum number of outgroup samples with missing data: 1
 # maximum average number of paralogs: 2
 # maximum median number of paralogs: 2
 #
+# found BUSCO table for taxon Nothurs_palustris -> ingroup
+# found BUSCO table for taxon Hypochthonius_rufulus -> ingroup
+# found BUSCO table for taxon Tetranychus_urticae -> outgroup
 # found BUSCO table for taxon Achipteria_coleoptrata -> ingroup
 # found BUSCO table for taxon Brevipalpus_yothersi -> outgroup
-# found BUSCO table for taxon Hermannia_gibba -> ingroup
-# found BUSCO table for taxon Hypochthonius_rufulus -> ingroup
-# found BUSCO table for taxon Nothurs_palustris -> ingroup
-# found BUSCO table for taxon Platynothrus_peltifer -> ingroup
 # found BUSCO table for taxon Steganacarus_magnus -> ingroup
-# found BUSCO table for taxon Tetranychus_urticae -> outgroup
-# Evaluated 1043 BUSCOs - 883 (84.66 %) passed
+# found BUSCO table for taxon Platynothrus_peltifer -> ingroup
+# found BUSCO table for taxon Hermannia_gibba -> ingroup
+# Evaluated 1043 BUSCOs - 940 (90.12 %) passed
 
 ```
 

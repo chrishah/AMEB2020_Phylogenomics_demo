@@ -80,16 +80,19 @@ for f in files:
 #                    lines.append("%s\tnot on list" %ID)
 #                    print(lines[-1])
                     continue
+	    #if the ID is encountert for the first time
             if not ID in data:
-                data[ID] = {group: {f: 1}}
-
-            if not group in data[ID]:
-                data[ID][group] = {f: int(1)}
-            
-            if not f in data[ID][group]:
-                data[ID][group][f] = int(1)
+                data[ID] = {group: {f: int(1)}}
             else:
-                data[ID][group][f]+=1
+	    	#if the ID was encountert before but not for this group
+                if not group in data[ID]:
+                    data[ID][group] = {f: int(1)}
+                else:
+	    	    #if the ID was encountert before for this group but not in this file         
+                    if not f in data[ID][group]:
+                        data[ID][group][f] = int(1)
+                    else:
+                        data[ID][group][f]+=1
 
 #            print(data)
 
