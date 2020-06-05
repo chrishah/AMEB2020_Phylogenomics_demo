@@ -370,7 +370,7 @@ Aliscore.pl -N -r 200000000000000000 -i $ID.clustalo.aln.fasta &> aliscore.log
 ALICUT.pl -s &> alicut.log
 ```
 Try open the upload [dialog](https://www.ncbi.nlm.nih.gov/projects/msaviewer/?appname=ncbi_msav&openuploaddialog) for the Alignment viewer in a new tab and upload the new file (`ALICUT_EOG090X04G3.clustalo.aln.fasta`).
-What do you think? The algorithm has removed some 9000 bp of the original alignment, reducing it to only ~500, but these look much better. 
+What do you think? The algorithm has removed some 1000 bp of the original alignment, reducing it to only ~500, but these look much better. 
 
 Find best model of evolution for phylogenetic inference (first set up a new directory to keep things organized) using a script from [RAxML](https://cme.h-its.org/exelixis/web/software/raxml/).
 ```bash
@@ -431,12 +431,16 @@ And of course, we get our best scoring Maximum Likelihood tree.
 ```
 .. in the Newick tree format. There is a bunch of programs that allow you to view and manipulate trees in this format. You can only do it online, for example through [ETE3](http://etetoolkit.org/treeview/), [icytree](https://icytree.org/), or [trex](http://www.trex.uqam.ca/index.php?action=newick&project=trex). You can try it out.
 
-Now, let's say we want to go over this process for each of our 880+ genes that passd our filtering criteria. A script that does all the above steps run for each BUSCO would do it. I've made a very simple one that also fetches the individual genes for each of the BUSCO ids. You could try e.g. this, assuming you've run the BUSCO analyses for all datasets and they are all in the `genes/` directory, if you are in the `analyses/per_gene/` directory.
+Now, let's say we want to go over this process for each of our 900+ genes that passd our filtering criteria. A script that does all the above steps run for each BUSCO would do it. I've made a very simple one that also fetches the individual genes for each of the BUSCO ids. You could try e.g. the following, which assumes this:
+  - you've run the BUSCO analyses for all datasets and they are in directories called like the name of the species in the `genes/` directory, so, e.g.: `genes/Achipteria_coleoptrata`
+  - the directory where you are running the following contains the files `ingroup.txt` and `outgroup.txt` that list the taxa to be considered ingroup and outgroup, respectively. The taxon names need to correspond to the sample specific directories you ran the BUSCO analysis in. The below runs it for the first three BUSCOs that passed our criteria. If you want to run it for all, remove the `head -n 3`.
+
 
 ```bash
-(user@host)-$ for g in $(cat ../pre-filtering/evaluate.all.tsv | grep "pass$" | cut -f 1 | head -n 3)
+(user@host)-$ threads=3
+(user@host)-$ for BUSCO in $(cat ../pre-filtering/evaluate.all.tsv | grep "pass$" | cut -f 1 | head -n 3)
 do
-	../../bin/per_BUSCO.sh $g 3 ../../genes/
+	../../bin/per_BUSCO.sh $BUSCO $threads ../../genes/
 done 
 ```
  
